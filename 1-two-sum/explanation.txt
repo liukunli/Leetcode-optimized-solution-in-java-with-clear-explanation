@@ -1,0 +1,14 @@
+Optimized solution, O(n) time, O(n) space:
+
+1. Use HashMap to store the elements in the array
+2. Then loop through the array again. Check in the HashMap
+
+Notes:
+
+1. Cannot use HashSet since we need to get the index
+
+Other solution 1, O(n logn) time, O(1) space:
+
+Sort the array. Then use double pointer search. 
+
+
