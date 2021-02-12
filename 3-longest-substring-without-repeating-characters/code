@@ -1,0 +1,45 @@
+/*
+sliding window implementation template
+1. left = 0, right = 0;
+2. for(right), check if the window is valid, if not keep moving the right window
+3. if valid, moving the left window until it is invalid
+
+keep moving the right pointer until it is valid, keep moving the left pointer until it is invalid
+
+the longest substring ending that the rigth index
+
+complexity: O(n) time, O(n) space
+
+To store char map, use array of length of 256, rather than using a hashset. For lowercase only, use array of length 26
+
+
+*/
+class Solution {
+   public int lengthOfLongestSubstring(String s) {
+        if (s == null || s.length() == 0) {
+            return 0;
+        }
+        int[] tmp = new int[256];
+        int maxlen = 0;
+        int l = 0;
+        int r = 0;
+
+        while (l < s.length()) {
+            
+            // no repeating, move right index on place
+            if (r < s.length() && tmp[s.charAt(r)] == 0) {
+                tmp[s.charAt(r++)] = 1;
+            } else {
+                
+            // some repeating. move left to the right 
+                maxlen = maxlen > (r - l) ? maxlen : (r - l);
+
+                tmp[s.charAt(l++)] = 0;
+
+            }
+        }
+
+        return maxlen;
+
+    }
+}

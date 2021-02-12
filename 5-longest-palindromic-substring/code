@@ -1,0 +1,47 @@
+// expand around the center
+// two cases: odd number of items, even number of items
+
+
+class Solution {
+
+    public String longestPalindrome(String s) {
+        if (s==null || s.isEmpty()) {
+            return new String();
+        }
+        if (s.length()==1) {
+            return s;
+        }
+        char[] chars = s.toCharArray();
+        String res = new String();
+        int max = 0;
+        int k = 1;
+        //odd number of elements
+        for (int i = 1; i < chars.length; i++) {
+            while (i+k<chars.length && i-k>=0 && chars[i-k] == chars[i+k] ) {
+                k++;
+            }
+            k--;
+            if (k>max) {
+                max = k ;
+                res = s.substring(i-k ,i+k+1);
+            }
+            k = 1;
+        }
+        //even number of elements
+        k = 0;
+        for (int i = 1; i < chars.length; i++) {
+            while (i+k<chars.length && i-k-1>=0 && chars[i-k-1] == chars[i+k] ) {
+                k++;
+            }
+            if (k>max) {
+                max = k ;
+                res = s.substring(i-k ,i+k);
+            }
+            k = 0;
+        }
+        if (max==0) {
+            res = String.valueOf(s.charAt(0));
+        }
+        return res;
+    }
+}
