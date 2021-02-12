@@ -1,0 +1,52 @@
+/*
+
+Use dynamic programming
+
+dp[i][j] s from 0 to i matched with p from 0 to j
+
+3 cases:
+
+1. i and j match, then look at i-1 and j-1
+2. i and j not match, then see if j is "*". If not look to j-2
+3. i and j not match, then see if j is "*". if j - 2 ".", set it as true. This is to catch the case of "*."
+
+base case:
+dp[0][j]
+
+want to know:
+dp[n][m]
+
+Order of fill the array:
+[i][j] depends on [i-1][j-1], [i][j-2], [i][j + 1]
+
+/*
+
+
+
+class Solution {
+    public boolean isMatch(String s, String p) {
+        int n = s.length(), m = p.length();
+        // dp array definitin: 
+        // dp[i][j] s from 0 to i matched with p from 0 to j
+        boolean[][] dp = new boolean[n + 1][m + 1];
+        dp[0][0] = true;
+        for (int i = 2; i <= m; i++) {
+            dp[0][i] = dp[0][i - 2] && p.charAt(i - 1) == '*';
+        }
+
+        for (int i = 0; i < s.length(); i++) {
+            for (int j = 0; j < p.length(); j++) {
+                // i and j are matched
+                if(p.charAt(j) == '.' || p.charAt(j) == s.charAt(i))  {
+                    dp[i + 1][j + 1] = dp[i][j];
+                } else if (p.charAt(j) == '*') {
+                    // i and j are not match
+                    dp[i + 1][j + 1] = dp[i + 1][j - 1];
+                    if (p.charAt(j - 1) == '.' || p.charAt(j - 1) == s.charAt(i))
+                        dp[i + 1][j + 1] = dp[i + 1][j + 1] || dp[i][j + 1];
+                }
+            }
+        }
+        return dp[n][m];
+    }
+}

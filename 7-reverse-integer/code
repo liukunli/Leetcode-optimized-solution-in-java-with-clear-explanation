@@ -1,0 +1,17 @@
+/*
+loop through the digits in x
+each time: get the last digit using x % 10
+		   remove the last digit using x / 10
+
+/*
+class Solution {
+    public int reverse(int x) {
+        long res = 0;
+        while(x != 0) {
+            res = res*10 + x%10; // get the last digit of x, update res
+            x = x/10;  // remove the last digit of x
+        }
+        return (int)res==res? (int)res:0; // deal with edge case for overflow
+
+    }
+}

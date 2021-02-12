@@ -1,0 +1,27 @@
+/*
+solution 1
+
+convert the number to string
+then check 
+
+solution 2, optimized:
+reverse the integer. And then compare if it is equal to the original integer
+get the last digit using x % 10, remove the last digit using x / 10
+*/
+
+class Solution {
+    public boolean isPalindrome(int x) {
+        if (x < 0)
+        {
+            return false;
+        }
+        int num = x;
+        int res = 0;
+        while (num != 0)
+        {
+            res = res * 10 + num % 10;
+            num /= 10;
+        }
+        return res == x?true:false;
+    }
+}
