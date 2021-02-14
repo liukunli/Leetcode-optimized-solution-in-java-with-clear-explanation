@@ -1,0 +1,31 @@
+/*
+use a carry over
+Construct a new array. The result may have one more digits
+
+*/
+class Solution {
+    public int[] plusOne(int[] digits) {
+        int carry_over = 1;
+        int len = digits.length;
+        int temp;
+        for(int i = len - 1; i >= 0; i--) {
+            temp = digits[i] + carry_over;
+            if(temp >= 10) {
+                digits[i] = temp - 10;
+                carry_over = 1;
+            } else {
+                digits[i] = temp;
+                carry_over = 0;
+            }
+        }
+        if(carry_over == 0) {
+            return digits;
+        }
+        int[] ret = new int[digits.length + 1];
+        ret[0] = 1;
+        for(int i = 0; i < len; i++) {
+            ret[i+1] = digits[i];
+        }
+        return ret;
+    }
+}

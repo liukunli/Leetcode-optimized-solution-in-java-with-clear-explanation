@@ -1,0 +1,30 @@
+/*
+use binary search
+return high pointer, since the decimal digits are truncated
+*/
+class Solution {
+    public int mySqrt(int x) {
+        
+        if(x <= 1){
+            return x;
+        }
+        
+        int low = 1;
+        int high = x;
+        int mid;
+        
+        // binary search template
+        while(low <= high) {
+            mid = low + (high - low) / 2;
+            int sqrt = x / mid;
+            if(sqrt == mid) {
+                return mid;
+            } else if(mid > sqrt) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+       return high; 
+    }
+}

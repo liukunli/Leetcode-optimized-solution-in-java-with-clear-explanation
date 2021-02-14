@@ -1,0 +1,89 @@
+/*
+
+There are some bugs. The idea is just backtracking
+
+*/
+class Solution {
+    // use backtracking
+    // marked all visited coordiate and all obstacles
+    boolean[][] marked;
+    int global_count = 0;
+    int count = 0; // count how many are visited
+    int[][] grid;
+    int row;
+    int col;
+    int total_sqaure = 0; // exluding the start and the end
+    int[] start = new int[2];
+    int[] end = new int[2];
+    int[] dx = new int[]{0, -1, 1, 0};
+    int[] dy = new int[]{-1, 0, 0, 1};
+    
+    public int uniquePathsIII(int[][] grid) {
+        if(grid == null){
+            return 0;
+        }
+        this.grid = grid;
+        this.row = grid.length;
+        this.col = grid[0].length;
+        marked = new boolean[row][col];
+        // initialization
+        for(int i = 0; i < row; i++) {
+            for(int j = 0; j < col; j++) {
+                int temp = grid[i][j];
+                // mark all obstables
+                if(temp == -1) {
+                    marked[i][j] = true;
+                }
+                if(temp == 0) {
+                    total_sqaure++;
+                }
+                if(temp == 1) {
+                    start[0] = i;
+                    start[1] = j;
+                }
+                if(temp == 2) {
+                    end[0] = i;
+                    end[1] = j;
+                }
+            }
+        }
+        backtrack(start);
+        return global_count;
+    }
+    
+    
+    public void backtrack(int[] index) {
+        
+        // reach the end before walking over all square
+        if(index[0] == end[0] && index[1] == end[1] && count < total_sqaure) {
+            return ;
+        }
+        
+        // a path
+        if(index[0] == end[0] && index[1] == end[1] && count == total_sqaure) {
+            global_count++;
+            return ;
+        }
+
+        // for all possible options
+        for(int i = 0; i< 4;i++) {
+            int x = index[0] + dx[i];
+            int y = index[1] + dy[i];
+            // check if the option is valid
+            if(x >= 0 && x < row && y >= 0 && y < col &&  !marked[x][y]) {
+                
+                // choose that option
+                count++;
+                marked[x][y] = true;
+                // backtrack
+                
+                backtrack(new int[]{x, y});
+                
+                
+                // undo choosing that option
+                count--;
+                marked[x][y] = false;
+            } 
+        }
+    }
+}

@@ -1,0 +1,26 @@
+/*
+similar to Fibonacci number
+
+space is optmized to O(1)
+*/
+class Solution {
+    public int tribonacci(int n) {
+        if(n == 0) {
+            return 0;
+        }
+         if(n == 2 || n == 1) {
+            return 1;
+        }
+        int pre_pre_pre = 0;
+        int pre_pre = 1;
+        int pre = 1;
+        int current = -1;
+        for(int i = 3; i <= n; i++) {
+            current = pre + pre_pre + pre_pre_pre;
+            pre_pre_pre = pre_pre;
+            pre_pre = pre;
+            pre = current;
+        }
+        return current;
+    }
+}

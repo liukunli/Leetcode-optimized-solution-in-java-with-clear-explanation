@@ -1,0 +1,28 @@
+/*
+This is the most optmized solution
+dp components:
+    1. dp high level idea, for each stair, we can get there either from the one before, or from pre_pre
+    2. dp array definition: the min cost of the path ending that that stair, including the cost for tha stair
+    3. base case: stair 1 and 2
+    4. want to know: after going through all the stair
+
+when returning, we should do Math.min(current, pre_pre)
+
+Space is optmized to O(1).
+
+
+
+*/
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int pre_pre = cost[0];
+        int pre = cost[1];
+        int current = Integer.MAX_VALUE;
+        for(int i = 2; i < cost.length; i++) {
+            current = Math.min(pre_pre, pre) + cost[i];
+            pre_pre = pre;
+            pre = current;
+        }
+        return Math.min(current, pre_pre);
+    }
+}

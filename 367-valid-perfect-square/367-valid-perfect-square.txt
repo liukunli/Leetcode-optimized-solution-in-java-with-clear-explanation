@@ -1,0 +1,33 @@
+/*
+basic binary search
+initialize left, right mid
+note that they need to be initialize to be long, otherwise there might be  overflow
+left = 2, right = x / 2 to make it more efficient
+
+
+*/
+class Solution {
+    public boolean isPerfectSquare(int x) {
+        if(x < 2){
+            return true;
+        }
+        
+        long left = 2;
+        long right = x / 2;
+        long mid;
+        
+        // binary search template
+        while(left <= right) {
+            mid = left + (right - left) / 2;
+            long temp = mid * mid;
+            if(temp > x) {
+                right = mid -1;
+            } else if(temp < x) {
+                left = mid + 1;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+}
