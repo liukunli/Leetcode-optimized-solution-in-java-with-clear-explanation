@@ -1,0 +1,25 @@
+/*
+formula: Math.min(height[l], height[r]) * (r - l)
+
+to make this number bigger, either make (r -l) bigger, or make Math.min(height[l], height[r]) bigger
+
+r - l is continuously getting smaller with double pointer
+the goal is to make Math.min(height[l], height[r]) bigger while moving the pointer
+
+
+*/
+class Solution {
+   public int maxArea(int[] height) {
+        int maxarea = 0, l = 0, r = height.length - 1;
+        while (l < r) {
+            // update
+            maxarea = Math.max(maxarea, Math.min(height[l], height[r]) * (r - l));
+            // make Math.min(height[l], height[r]) bigger while moveing the pointer
+            if (height[l] < height[r])
+                l++;
+            else
+                r--;
+        }
+        return maxarea;
+   }
+}

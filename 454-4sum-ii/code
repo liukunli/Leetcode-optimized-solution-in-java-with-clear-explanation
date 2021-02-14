@@ -1,0 +1,33 @@
+/*
+solution 1, brute force, O(n^4);
+
+solution 2, double pointers:
+
+calculate all possible combinations of C and D, and store them in a hashmap
+calculate all possible combinations of A and B
+
+O(n^2) time, O(n^2) space
+
+*/
+class Solution {
+    public int fourSumCount(int[] A, int[] B, int[] C, int[] D) {
+
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int i = 0; i < C.length; i++) {
+            for (int j = 0; j < D.length; j++) {
+                int sum = C[i] + D[j];
+                map.put(sum, map.getOrDefault(sum, 0) + 1);
+            }
+        }
+
+        int count = 0;
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B.length; j++) {
+                int res = -(A[i] + B[j]);
+                count = count + map.getOrDefault(res, 0);
+            }
+        }
+
+        return count;
+    }
+}
