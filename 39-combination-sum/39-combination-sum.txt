@@ -1,0 +1,56 @@
+/*
+backtracking template:
+    1. check base case
+    2. for all possible options
+    3. check if that option is valid
+    4. if valid, choose that option
+    5. do backtracking
+    6. undo that option
+
+
+*/
+class Solution {
+    
+    // if this a counting problem, then it is a knapsack problem with repeating element
+    // need to output all the possible results, use backtracking
+    
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> current_list = new ArrayList<>();
+    private int[] candidates;
+    private int target;
+    private int n;
+    
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        if (candidates == null || candidates.length == 0) return res;
+        this.n = candidates.length;
+        this.target = target;
+        this.candidates = candidates;
+        Arrays.sort(this.candidates); 
+        // before explore index = 0, the sum = 0
+        dfs(0, 0);
+        return res;
+    }
+    
+    // index is the next available index to explore
+    // sum is the current sum, before exploring the next available index
+    private void dfs(int index, int sum) {
+        // at this current index, this is the sum
+        // do dfs backtracking
+        
+        // check if it is ok to return 
+        if (sum == target) {
+            res.add(new ArrayList(current_list));
+            return ;
+        }
+        for (int i = index; i < n; i++) { // for each possible options
+            if (sum + candidates[i] <= target) {  // check if it is a valid option
+                current_list.add(candidates[i]); // choose that option
+                dfs(i, sum + candidates[i]);  // run dfs
+                current_list.remove(current_list.size() - 1); // undo that option
+            } 
+        }
+    }
+    
+    
+    
+}

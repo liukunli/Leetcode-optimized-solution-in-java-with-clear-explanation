@@ -1,0 +1,46 @@
+/*
+backtrack problem
+backtracking template:
+    1. check base case
+    2. for all possible options
+    3. check if that option is valid
+    4. if valid, choose that option
+    5. do backtracking
+    6. undo that option
+
+
+*/
+class Solution {
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> current = new ArrayList<>();
+    private int n;
+    private int k;
+    
+    public List<List<Integer>> combine(int n, int k) {
+        this.n = n;
+        this.k = k;
+        backtrack(0);
+        return res;
+    }
+    
+    
+    private void backtrack(int num) {
+        
+        // check base case
+        if(current.size() == k) {
+            res.add(new ArrayList<>(current));
+            return ;
+        }
+        
+        // for all possible options
+        // check if it is valid. All are automatically valid
+        for(int i = num + 1; i <= n; i++) {
+            // choose that option
+            current.add(i);
+            // backtrack
+            backtrack(i);
+            // undo that option
+            current.remove(current.size() - 1);
+        }
+    }
+}

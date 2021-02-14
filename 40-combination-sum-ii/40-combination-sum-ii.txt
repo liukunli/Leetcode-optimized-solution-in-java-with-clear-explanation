@@ -1,0 +1,42 @@
+class Solution {
+    // if this a counting problem, then it is a knapsack problem with repeating element
+    // need to output all the possible results, use backtracking
+    
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> current_list = new ArrayList<>();
+    private int[] candidates;
+    private int target;
+    private int n;
+    
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        if (candidates == null || candidates.length == 0) return res;
+        this.n = candidates.length;
+        this.target = target;
+        this.candidates = candidates;
+        Arrays.sort(this.candidates); 
+        dfs(0, 0);
+        return res;
+    }
+    
+    
+    // index is the next available index to explore
+    // sum the is current sum
+    private void dfs(int index, int sum) {
+        
+        // check if it is ok to return 
+        if (sum == target) {
+            res.add(new ArrayList(current_list));
+            return ;
+        }
+        for (int i = index; i < n; i++) { // for each possible options
+            if(i > index && candidates[i] == candidates[i-1]) continue;   //剪枝，排除重复
+            if (sum + candidates[i] <= target) {  // check if it is a valid option。剪枝，已经排好序
+                current_list.add(candidates[i]); // choose that option
+                dfs(i+1, sum + candidates[i]);  // run dfs， 访问i之后，下一个是i+1
+                current_list.remove(current_list.size() - 1); // undo that option
+            } else {
+                break;
+            }
+        }
+    }
+}

@@ -1,0 +1,33 @@
+/*
+
+Similar to classic 3sum question
+Current index i, left = i+1, right = len - 1
+Use double pointer search
+
+
+*/
+
+class Solution {
+    public int threeSumSmaller(int[] nums, int target) {
+        Arrays.sort(nums);
+        int length = nums.length;
+        
+        int count = 0;
+        
+        for (int i = 0; i < length; i++) {
+            int left = i + 1;
+            int right = length - 1;
+            
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum >= target) { // the number is too big
+                    right--;
+                } else { // the number is small. This means that if we fix the left index, all the right index (right > left) will be valid
+                    count = count + right - left;
+                    left++;
+                }
+            }
+        }
+        return count;
+    }
+}

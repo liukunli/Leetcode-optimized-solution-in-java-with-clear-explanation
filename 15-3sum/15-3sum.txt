@@ -1,0 +1,65 @@
+/*
+similar to 2sum using double pointer
+use i as the index for current
+left = i+1, right = len -1
+use double pointer search
+the key is to remove duplicates:
+    1. check if i can be duplicate
+    2. check if left can be duplicate
+    3. check if right can be duplicate
+
+Also, don't break the loop after find a match. We need to find all the match. There might be multiple matches. After find a match, just change the pointer of right and left
+
+
+
+
+*/
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(nums == null || nums.length < 3) {
+            return res;
+        }
+        Arrays.sort(nums);  // double pointer search, sort the array first
+        int len = nums.length;
+        int left, right;
+        for(int i = 0; i < len; i++) {
+            
+            if(nums[i] > 0) break; // optimization
+            
+            if(i > 0 && nums[i] == nums[i-1]) continue; // remove duplicates
+            
+            left = i+1;
+            right = len - 1;
+            
+            while(left < right) {
+                int temp = nums[left] + nums[i] + nums[right];
+                if(temp == 0) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(nums[left]);
+                    list.add(nums[i]);
+                    list.add(nums[right]);
+                    res.add(list);
+                    
+                    while(left + 1 < len && nums[left] == nums[left+1]) {
+                        left++;
+                    }  // remove duplicates
+                    
+                    while(right - 1 > i + 1 && nums[right] == nums[right-1]) {
+                        right--;
+                    }  // remove duplicates
+                    
+                    left++;
+                    right--; // keep looping, in case there are multiple pairs of left and right that meet the criteria
+                    
+                } else if(temp > 0) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+            
+        }
+        return res;
+    }
+}

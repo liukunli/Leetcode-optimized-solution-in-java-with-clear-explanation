@@ -1,0 +1,68 @@
+/*
+generate all combinations
+classic backtracking problem
+backtracking template:
+    1. check base case
+    2. for all possible options
+    3. check if that option is valid
+    4. if valid, choose that option
+    5. do backtracking
+    6. undo that option
+
+tricks: put variables on as global variables, so you don't need to pass the same variables again and again during recursive calls
+
+*/
+class Solution {
+    
+    private List<String> res = new ArrayList<>();
+    private char[] current_string;
+    private int current_idx = 0;
+    private int open = 0;
+    private int close = 0;
+    private int n;
+    
+    public List<String> generateParenthesis(int n) {
+        this.n = n;
+        current_string = new char[2*n];
+        backtrack();
+        return res;
+    }
+    
+    private void backtrack() {
+        
+        // check base case
+        if(open == n && close == n) {
+            res.add(String.valueOf(current_string));
+            return ;
+        }
+        if(open < close || open > n || close > n) {
+            return ;
+        }
+        
+        // choose one option
+        open++;
+        current_string[current_idx] = '(';
+        current_idx++;
+        // backtrack
+        backtrack();
+        // undo that option
+        open--;
+        current_idx--;
+        
+        // choose one option
+        close++;
+        current_string[current_idx] = ')';
+        current_idx++;
+        // backtrack
+        backtrack();
+        // undo that option
+        close--;
+        current_idx--;
+        
+    }
+    
+    
+    
+    
+    
+}

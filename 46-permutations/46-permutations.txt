@@ -1,0 +1,43 @@
+class Solution {
+    
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> current_list = new ArrayList<>();
+    private boolean[] used;
+    private int[] nums;
+    private int len;
+    
+    public List<List<Integer>> permute(int[] nums) {
+        this.nums = nums;
+        this.len = nums.length;
+        this.used = new boolean[this.len];
+        dfs();
+        return res;
+    }
+    
+    private void dfs() {
+        // check base case
+        if(current_list.size() == len) {
+            res.add(new ArrayList(current_list));
+            return ;
+        }
+        
+        // for each possible options
+        for(int i = 0; i < len; i++) {
+            //check if that option is valid
+            if(used[i]) {
+                continue;
+            }
+            // choose that option
+            current_list.add(nums[i]);
+            used[i] = true;
+            // dfs
+            dfs();
+            // undo choosing that option
+            current_list.remove(current_list.size() - 1);
+            used[i] = false;
+            
+        }
+    
+    }
+}
+

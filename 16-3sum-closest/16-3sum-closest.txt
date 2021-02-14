@@ -1,0 +1,45 @@
+class Solution {
+    public int threeSumClosest(int[] nums, int target) {
+        // similar to 3SUM
+        // will need to do sorting
+        // for each value, do double pointer search
+        // for each value, write down the closest that it gets to the target
+        // then do a find min operation
+        // O(n^2) time, O(1) space
+	// for this question, there is no issue of duplicates
+        
+        
+        // sory the array
+        Arrays.sort(nums);
+        int len = nums.length;
+        int closest = Integer.MAX_VALUE;
+        int closest_sum = Integer.MAX_VALUE;
+        
+        // outer loop
+        for(int i = 0; i < len - 1; i++) {
+            
+            int left = i + 1;
+            int right = len - 1;
+
+            // inner while loop for double pointer search
+            // make sure to check if left and right is valid in the while loop
+            while(left < right) {
+                int temp_sum = nums[left] + nums[right] + nums[i];
+                int temp_closest = Math.abs(temp_sum - target);
+                if(closest > temp_closest) {
+                    closest = temp_closest;
+                    closest_sum = temp_sum;
+                }
+                if(temp_sum == target) {
+                    break;
+                }
+                if(temp_sum > target) {
+                    right--;
+                } else {
+                    left++;
+                }
+            }
+        }
+        return closest_sum;
+    }
+}
