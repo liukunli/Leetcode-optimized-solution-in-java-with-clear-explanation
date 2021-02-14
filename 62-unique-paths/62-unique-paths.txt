@@ -1,0 +1,54 @@
+/*
+classic DP problem
+    1. high level dp idea: there are only two ways to get to [i,j], either from [i-1, j] or from [i, j -1]
+    2. dp array definition
+    3. base case and edge case
+    4. want to know
+
+There can be several different definitions of dp array definition. Many of them are valid. Try to pick the one that are easy to implment. For example, pick the one that can allow you to fill the array from the front to the end. 
+
+For this question, space can be optimized to O(n) by using rolling array
+
+*/
+class Solution {
+    public int uniquePaths(int m, int n) {
+        // definition of DP array: number of path from [0,0] to [m,n]
+        int[][] res = new int[m][n];
+        // base case
+        int row = res.length;
+        int col = res[0].length;
+        for(int i = 0; i < row; i++){
+            res[i][0] = 1;
+        }
+        for(int i = 0; i < col; i++) {
+            res[0][i] = 1;
+        }
+        
+        // dp implementation
+        // fill the first row from left to right, and then the second row and so on
+        for(int i = 1; i < row; i++) {
+            for(int j = 1; j < col; j++) {
+                res[i][j] = res[i-1][j] + res[i][j-1];
+            }
+        }
+        return res[row-1][col-1];
+    }
+}
+
+
+
+
+
+class Solution {
+    public int uniquePaths(int m, int n) {
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for(int i=0;i<m;i++)        {
+            for(int j=1;j<n;j++)
+            {
+                dp[j] = dp[j]+dp[j-1];
+            }
+        }
+        return dp[n-1];
+    }
+}

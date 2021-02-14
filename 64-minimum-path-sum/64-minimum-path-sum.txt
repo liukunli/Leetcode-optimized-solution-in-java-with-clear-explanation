@@ -1,0 +1,42 @@
+/*
+dp problem:
+    1. dp array definitin, choose the definition that is most convenient to implement
+    2. base case
+    3. want to know
+    4. high level dp idea: the min sum at [i,j] either come from the top or from the left
+
+Note that for this question, the space complexity can be optimized to O(n)
+
+*/
+class Solution {
+    public int minPathSum(int[][] grid) {
+        
+        if(grid == null) {
+            return Integer.MAX_VALUE;
+        }
+        
+        int row = grid.length;
+        int col = grid[0].length;
+        
+        // dp array, modify in place
+        // definition: the minimal sum from [0,0] to [i, j]
+        
+        // initialzation
+        for(int i = 1; i < row; i++) {
+            grid[i][0] = grid[i][0] + grid[i-1][0];
+        }
+        
+        for(int j = 1; j < col; j++) {
+            grid[0][j] = grid[0][j] + grid[0][j-1];
+        }
+        
+        // dp implementation
+        // choose the dp definition that is most intuitive to implement
+        for(int i = 1; i < row; i++) {
+            for(int j = 1; j < col; j++) {
+                grid[i][j] = grid[i][j] + Math.min(grid[i-1][j], grid[i][j-1]);
+            }
+        }
+        return grid[row-1][col-1];
+    }
+}

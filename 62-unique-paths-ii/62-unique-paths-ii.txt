@@ -1,0 +1,54 @@
+/*
+simiar to 62
+This one has edge case
+
+*/
+class Solution {
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        
+        // dp[i, j] = dp[i+1, j] + dp[i,j+]
+        // definition: different way to move from dp[i,j] to dp[m,n]
+        // fill the last row, and then the second last, and so on
+        
+        
+        // dp[i,j] = dp[i-1,j]+dp[i,j-1]
+        // definition; different way to move from dp[0,0] to dp[i,j]
+        // fill the first row, and then the second first, and so on
+        // this definition is more convenient to implement
+        
+        int row = obstacleGrid.length;
+        int col = obstacleGrid[0].length;
+        int[][] dp = new int[row][col];
+        
+        if(obstacleGrid[0][0] == 1) {
+            return 0;
+        } else {
+            dp[0][0] = 1;
+        }
+        
+        // initialization, dealing with edge case
+        for(int i = 1; i < row; i++) {
+            dp[i][0] = (obstacleGrid[i][0] == 0 && dp[i - 1][0] == 1) ? 1 : 0;
+        }
+        
+        for(int i = 1; i < col; i++) {
+            dp[0][i] = (obstacleGrid[0][i] == 0 && dp[0][i - 1] == 1) ? 1 : 0;
+        }
+        
+        
+        // dp implementation
+        for(int i = 1; i < row; i++) {
+            for(int j = 1; j < col; j++) {
+                
+                if(obstacleGrid[i][j] == 0) {   // no obstacle
+                    dp[i][j] = dp[i-1][j] + dp[i][j-1];
+                } else if(obstacleGrid[i][j] == 1) {      // some obstable, meaning that it cannot be reached
+                    dp[i][j] = 0;
+                }
+            }
+        }
+        
+        return dp[row-1][col-1];
+        
+    }
+}
