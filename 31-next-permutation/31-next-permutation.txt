@@ -1,0 +1,33 @@
+/*
+find the first inversion
+find the number that is just bigger than this number
+swap them, and then sort
+
+*/
+class Solution {
+    public void nextPermutation(int[] nums) {
+        for (int i = nums.length - 1; i > 0; i--) {
+            //find the first inversion
+            if (nums[i] > nums[i - 1]) {
+                int min = nums[i];
+                int ind = i;
+                //find the smallest number after this number
+                for (int j = i; j < nums.length; j++) {
+                    if (min > nums[j] && nums[j] > nums[i-1]){
+                        min = nums[j];
+                        ind = j;
+                    }
+                }
+                //swap
+                int temp = min;
+                nums[ind] = nums[i - 1];
+                nums[i - 1] = temp;
+                //sort
+                Arrays.sort(nums, i, nums.length);
+    			return;
+            }
+        }
+        // sort
+        Arrays.sort(nums);
+    }
+}

@@ -1,0 +1,92 @@
+/*
+use left and right pointer
+fix left pointer, find the max turbulence subsequence by moving the right pointer
+then move left pointer to the right pointer
+and continue
+
+sliding window minimum
+left = 0, right;
+for(right = 0; right < len; right++) {
+    if(window not valid) {
+        right++;
+        continue;
+    }
+    // window is valid, keep moving left pointer until it is invalid
+    while(window is valid) {
+        left++;
+    }
+}
+
+
+
+sliding window maximum
+left = 0, right = 0;
+while(left < len) {
+    right = left;
+    while(window can be larger) {
+        right++;
+    }
+    // make sure right is bigger than left after the loop
+    // otherwise it will be an infinite loop 
+    left = right;
+}
+
+
+
+*/
+class Solution {
+    public int maxTurbulenceSize(int[] arr) {
+        
+        if(arr == null || arr.length == 0){
+            return 0;
+        }
+        int len = arr.length;
+        int left = 0, right;
+        int max_len = 1;
+        while(left < len) {
+            right = left;
+            int option1 = right;
+            
+            // there might be some repeating code here
+            // it is ok
+            // get it more concise may cause trouble
+            while(option1 < len - 1) {
+                if(option1 % 2 == 0) {
+                    if(arr[option1] >= arr[option1 + 1]) {
+                        break;
+                    }
+                } else {
+                    if(arr[option1] <= arr[option1 + 1]) {
+                        break;
+                    }
+                }
+                option1++;
+            }
+            
+            int option2 = right;
+            while(option2 < len - 1) {
+                if(option2 % 2 == 0) {
+                    if(arr[option2] <= arr[option2 + 1]) {
+                        break;
+                    }
+                } else {
+                    if(arr[option2] >= arr[option2 + 1]) {
+                        break;
+                    }
+                }
+                option2++;
+            }
+            right = Math.max(option1, option2);
+            
+            // in case that the next number is not good, left pointer has to increment
+            if(right == left) {
+                left++;
+                continue;
+            }
+            
+            max_len = Math.max(max_len, right - left +1);
+            left = right;
+        }
+        return max_len;
+    }
+}

@@ -1,0 +1,57 @@
+/*
+
+sliding window template 
+
+int left = 0, right = 0;
+for(right = 0; right < len; right++) {
+    if(window not valid) {
+        right++;
+        continue;
+    }
+    // here, the window is valid. move left until it becomes invalid again
+    while(window valid) {
+        left++;
+    }
+}
+
+for this question, you don't need sliding window. Just find the degree. 
+*/
+
+class Solution {
+    public int findShortestSubArray(int[] nums) {
+        // check edge case
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        // use a hashmap to store all the index
+        HashMap<Integer, List<Integer>> map = new HashMap<>();
+        for(int i = 0; i < nums.length; i++) {
+            if(!map.containsKey(nums[i])) {
+                ArrayList<Integer> list = new ArrayList<>();
+                list.add(i);
+                map.put(nums[i], list);
+                continue;
+            }
+            map.get(nums[i]).add(i);
+        }
+        
+        // find the max size, the degree
+        int max = 0;
+        for(int num : map.keySet()) {
+            int size = map.get(num).size();
+            max = Math.max(max, size);
+        }
+        
+        // find the smallest_length that gives that degree
+        int smallest_length = Integer.MAX_VALUE;
+        for(int num : map.keySet()) {
+            int size = map.get(num).size();
+            if(size == max) {
+                int len = map.get(num).get(size - 1) - map.get(num).get(0) + 1;
+                smallest_length = Math.min(smallest_length, len);
+            }
+        }
+        
+        return smallest_length;
+    }
+}
