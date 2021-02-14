@@ -7,6 +7,7 @@ then check
 solution 2, optimized:
 reverse the integer. And then compare if it is equal to the original integer
 get the last digit using x % 10, remove the last digit using x / 10
+no extra space
 */
 
 class Solution {
