@@ -1,0 +1,40 @@
+/*
+dp 
+1. dp array definition
+2. dp recursion
+3. base case, edge case
+4. want to know
+
+
+O(n) time, O(1) space
+
+keep tracking of the largest and smallest product from index 0 to index i
+for index i+1, you then know what to do
+
+
+*/
+class Solution {
+    public int maxProduct(int[] A) {
+        
+        // base case
+        int minimum = A[0];
+        int maximum = A[0];
+        int res = A[0];
+        int temp;
+        
+        // dp implementation
+        for(int i = 1; i < A.length; i++) {
+            
+            if(A[i] < 0) {
+                temp = maximum;
+                maximum = minimum;
+                minimum = temp;
+            }
+            maximum = Math.max(A[i], maximum*A[i]);
+            minimum = Math.min(A[i], minimum*A[i]);
+            res = Math.max(res, maximum);
+        }
+        
+        return res;
+    }
+}

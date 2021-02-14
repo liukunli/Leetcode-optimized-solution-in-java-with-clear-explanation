@@ -1,0 +1,29 @@
+/*
+simple dp problem
+4 components:
+    1. high level recursion
+    2. base case, edge case
+    3. order of fill the array
+    4. want to know
+
+*/
+class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        int len = nums.length;
+        if(len == 1) {
+            return nums[0];
+        }
+        
+        int[] res = new int[len];
+        res[0] = nums[0];
+        int best = nums[0];
+        
+        for(int i = 1; i < len; i++) {
+            res[i] = Math.max(res[i-1] + nums[i], nums[i]);
+            best = Math.max(best, res[i]);
+        }
+        
+        return best;
+    }
+}

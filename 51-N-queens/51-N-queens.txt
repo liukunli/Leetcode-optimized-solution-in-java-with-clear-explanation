@@ -1,0 +1,66 @@
+class Solution {
+    
+    Set<Integer> colSet = new HashSet();
+    
+    Set<Integer> pieSet = new HashSet();
+    
+    Set<Integer> naSet = new HashSet();
+    
+    public List<List<String>> solveNQueens(int n) {
+        
+        List<List<String>> res = new ArrayList();
+        
+        
+        if (n < 1) {
+            return res;
+        }
+        
+        
+        backtrack(res, n, 0, new ArrayList());
+        
+      
+        return res;
+        
+    }
+    
+    // backtack  (路径，选择)：
+    // check 是否为base case
+    // for(对于每一个选项) 
+    // if 检查该选项是否合理
+    // 做选择
+    // backtrack (路径，选择)
+    // 取消选择
+    
+    
+    public void backtrack(List<List<String>> res, int n, int row, List<String> temp) {
+        if (row >= n) {
+            
+            res.add(new ArrayList(temp));
+            return;
+        }
+        
+        for (int i = 0; i < n; i++) {
+            if (colSet.contains(i) || pieSet.contains(row + i) || naSet.contains(row - i)) {
+                continue;
+            }
+            
+            colSet.add(i);
+            pieSet.add(row + i);
+            naSet.add(row - i);
+            
+            char[] s = new char[n];
+            Arrays.fill(s, '.');
+            s[i] = 'Q';
+            temp.add(new String(s));
+            
+            backtrack(res, n, row + 1, temp);
+
+            temp.remove(temp.size() - 1);
+            colSet.remove(i);
+            pieSet.remove(row + i);
+            naSet.remove(row - i);
+            
+        }
+    }
+}
+

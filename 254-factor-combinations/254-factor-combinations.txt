@@ -1,0 +1,27 @@
+class Solution {
+    List<List<Integer>> ret = new ArrayList<>();
+    public List<List<Integer>> combine(int n, int k) {
+        List<Integer> list = new ArrayList<>();
+        if(k > n || k == 0){
+            ret.add(list);
+            return ret;
+        }
+        backtracking(list, 1, n, k);
+        return ret;
+    }
+
+    private void backtracking(List<Integer> already, int start, int n, int k){
+        // check base cse
+        if(k == 0){
+            ret.add(new ArrayList<>(already));
+            return;
+        }
+        // for each possible options
+        for(int i = start; i <= n - k + 1; i++){
+            already.add(i);
+            backtracking(already, i+1, n, k-1);
+            already.remove(already.size() - 1);
+        }
+        return;
+    }
+}

@@ -1,0 +1,28 @@
+/*
+similar to question 26
+use two pointers
+low pointer: next position to fill for distinct element
+high pointer: next position in the array, just to loop through the array
+
+*/
+class Solution {
+    public int removeElement(int[] nums, int val) {
+        // find the first occurence of that number
+        // find the first occurannce of a valid number
+        // swap
+        
+        
+        // or use two pointer
+        // one pointer for traversing the array
+        // the other pointer to keep track of the current location to be filled
+        
+        int low = 0; // index for the next element for filling
+        for(int high = 0; high < nums.length; high++) {  //loop through element in the array
+            if(nums[high] != val) {
+                nums[low] = nums[high];
+                low++;
+            }
+        }
+        return low;
+    }
+}

@@ -1,0 +1,45 @@
+/*
+use stack
+the top element should be open
+whatever being added to the stack can be close
+
+*/
+class Solution {
+    public boolean isValid(String s) {
+         if(s == null) {
+             return true;
+         }
+        
+        Stack<Character> stack = new Stack<Character>();
+        
+        int len = s.length();
+        int i = 0;
+        char temp1;
+        char temp2;
+
+        
+        while(i < len) {
+            temp2 = s.charAt(i);
+            if(stack.empty()) {
+                stack.push(temp2);
+            } else {
+                temp1 = stack.peek();
+                if(temp1 == '(' && temp2 == ')') {
+                    stack.pop();
+                } else if (temp1 == '[' && temp2 == ']') {
+                    stack.pop();
+                } else if (temp1 == '{' && temp2 == '}') {
+                    stack.pop();
+                } else {
+                    stack.push(temp2);
+                }
+            }   
+            i++;
+        }
+        if(stack.empty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
