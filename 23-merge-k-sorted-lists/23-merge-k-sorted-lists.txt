@@ -1,0 +1,95 @@
+/*
+merge k lists at the same time by always picking the smallest element out of the k lists, use priority queue
+
+or merge two list every single time. This will have bad time complexity but is easy to implement
+
+Both should have the same time complexity
+
+Priority queue implementation can be hard. Store ListNode in the queue. Implement the comparator. 
+
+
+*/
+
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) {
+            return null;
+        }
+        if(lists.length == 1) {
+            return lists[0];
+        }
+        
+        // initialize a priority queue
+        // initialize the comparator of the priority queue
+        PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>((x1, x2) -> (x1.val - x2.val));
+        for(int i = 0; i < lists.length; i++) {
+            if(lists[i] != null) {
+                pq.add(lists[i]);
+            }
+        }
+        
+        ListNode head = new ListNode(0), current = head;
+        while(!pq.isEmpty()) {
+            current.next = pq.poll();
+            current = current.next;
+            if(current.next != null) {
+                pq.add(current.next);
+            }
+        }
+        return head.next;
+        
+        
+        
+        
+        
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists == null || lists.length == 0) {
+            return null;
+        }
+        if(lists.length == 1) {
+            return lists[0];
+        }
+        
+        int len = lists.length;
+        ListNode head = lists[0];
+        for(int i = 1; i < len; i++) {
+            head = mergeTwoLists(head, lists[i]);
+        }
+        return head;
+        
+    }
+    
+    
+    
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        if(l1 == null) {
+            return l2;
+        } 
+        if(l2 == null) {
+            return l1;
+        }
+        
+        if(l1.val < l2.val) {
+            l1.next = mergeTwoLists(l1.next, l2);
+            return l1;
+        } else {
+            l2.next = mergeTwoLists(l1, l2.next);
+            return l2;
+        }   
+    }
+}
