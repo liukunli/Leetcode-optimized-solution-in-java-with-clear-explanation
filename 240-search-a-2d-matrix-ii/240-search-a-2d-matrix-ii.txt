@@ -1,0 +1,30 @@
+/*
+start from low left or top right
+simiar to greedy search
+
+from low left, it can either go up or go right. go up will get a smaller number. go right will get a larger number. 
+*/
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if(matrix == null || matrix.length == 0 || matrix[0].length == 0) {
+            return false;
+        }
+        
+        int row = matrix.length;
+        int col = matrix[0].length;
+        int i = row - 1, j = 0;  // matrix[i,j] start from low left
+        
+        int temp;
+        while(i >= 0 && j <= col - 1) {
+            temp = matrix[i][j];
+            if(temp == target) { 
+                return true;
+            } else if(temp > target) {
+                i--;
+            } else { 
+                j++;
+            }
+        }
+        return false;
+    }
+}

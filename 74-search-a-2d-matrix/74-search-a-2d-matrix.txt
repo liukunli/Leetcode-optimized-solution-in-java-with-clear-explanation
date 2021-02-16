@@ -1,0 +1,93 @@
+/*
+if convert this 2D array to 1D array, it will be a sorted array, then use can use binary search
+
+
+
+*/
+class Solution {
+    
+    private int row;
+    private int col;
+    
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
+        row = matrix.length;
+        col = matrix[0].length;
+        
+        int low = 0, high = row * col - 1, mid;
+        while(low <= high) {
+            mid = low + (high - low) / 2;
+            int[] idx = getIndex(mid);
+            int i = idx[0], j = idx[1];
+            if(matrix[i][j] == target){
+                return true;
+            }
+            else if(matrix[i][j] > target)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        return false;
+    }
+    
+    public int[] getIndex(int n) {
+        
+        return new int[]{n / col, n % col};
+    }
+}
+
+
+
+
+/*
+if convert this 2D array to 1D array, it will be a sorted array, then use can use binary search
+
+Convert n to [i,j] index
+
+
+
+*/
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+
+        if(matrix.length == 0 || matrix[0].length == 0) return false;
+
+        int row_length = matrix[0].length, cloumn_length = matrix.length;
+
+        int low = 0, high = row_length * cloumn_length-1, mid = 0;
+
+        while(low <= high){
+
+            mid = low + (high - low) / 2;
+
+            int i = mid / row_length, j = mid % row_length;
+
+            if(matrix[i][j] == target){
+                return true;
+            }
+            else if(matrix[i][j] > target)
+                high = mid - 1;
+            else
+                low = mid + 1; 
+        }
+
+        return false;
+    }
+}
+
+/*
+
+Start from low left, or top right. Use greedy search method.
+
+*/
+class Solution {
+    public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
+    int m = matrix.length, n = matrix[0].length;
+    int row = 0, col = n - 1;
+    while (row < m && col >= 0) {
+        if (target == matrix[row][col]) return true;
+        else if (target < matrix[row][col]) col--;
+        else row++; }
+    return false;
+    }

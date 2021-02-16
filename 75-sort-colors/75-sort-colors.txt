@@ -1,0 +1,35 @@
+/*
+double pointer method with modification
+triple pointer: left, current, right
+*/
+class Solution {
+    public void sortColors(int[] nums) {
+		if(nums == null || nums.length == 0) {
+            return ;
+        }
+        int len = nums.length; 
+        int left = 0; // this is to store 0
+        int right = len - 1; // this is to store 2
+        int current = 0; // this is to store 1
+        
+        while(current <= right) {
+            if(nums[current] == 0) {
+                swap(nums, current, left);
+                left++;
+                current++;
+            } else if(nums[current] == 1) {
+                current++; // do nothing
+            } else {
+                swap(nums, current, right);
+                right--;
+            }
+        }
+        return ;
+	}
+	private void swap(int[] nums, int i, int j) {
+		int t = nums[i];
+		nums[i] = nums[j];
+		nums[j] = t;
+	}
+ 
+}
