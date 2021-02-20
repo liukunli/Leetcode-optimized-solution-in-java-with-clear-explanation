@@ -1,0 +1,66 @@
+/**
+ * Definition for singly-linked list.
+ * class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+
+/*
+linkedlist cycle template:
+
+// detect cycle
+slow = head;
+fast = head.next;
+while(slow != fast) {
+    slow = slow.next;
+    fast = fast.next;
+}
+
+// find entry in the cycle. Move either slow or fast to the head
+fast = head;
+        while(slow.next != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+return fast; 
+
+// find the length of the cycle
+fast = slow.next;
+length = 1;
+while(slow != fast) {
+    fast = fast.next;
+    length++;
+}
+
+*/
+public class Solution {
+    public ListNode detectCycle(ListNode head) {
+        if(head == null || head.next == null) {
+            return null;
+        }
+        ListNode slow = head;
+        ListNode fast = head.next;
+        while(slow != fast) {
+            if(fast == null || fast.next == null) {
+                return null;
+            }
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        System.out.print(slow.val + " " + fast.val);
+        // handle the case where there is no cycle
+        
+        fast = head;
+        while(slow.next != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+        
+        return fast;
+    }
+}

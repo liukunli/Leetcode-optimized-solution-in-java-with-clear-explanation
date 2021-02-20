@@ -1,0 +1,75 @@
+/*
+sliding window minimum template
+
+left = 0, right;
+for(right = 0; right < len; right++) {
+    // add right into the window
+    
+    while(validWindow()) {
+        // update min
+        // remove left from the window
+        // increment left pointer
+        left++
+    }
+}
+
+
+*/
+class Solution {
+    
+    private int[] countMap = new int[128];
+    
+    public String minWindow(String s, String t) {
+        
+        if(s.length() < t.length()) {
+            return "";
+        }
+        
+        // count all elements in t and store them in count map
+        for(int i = 0; i < t.length(); i++) {
+            countMap[t.charAt(i)]++;
+        }  
+        
+        int len = s.length();
+        int left = 0, right;
+        int min_len = Integer.MAX_VALUE;
+        int[] min_len_index = new int[2];
+        boolean found = false;
+        for(right = 0; right < len; right++) {
+            // add right element into the window
+            countMap[s.charAt(right)]--;
+            
+            while(isValidWindow()) {
+                // at this time, the window is valid
+                // move the left pointer until the window becomes invalid
+                // update min
+                found = true;
+                int current_length = right - left + 1;
+                if(min_len > current_length) {
+                    min_len = current_length;
+                    min_len_index[0] = left;
+                    min_len_index[1] = right;
+                }
+                // remove the element at the left pointer
+                // move the left pointer
+                countMap[s.charAt(left)]++;  
+                left++;
+            }
+        }
+        if(!found) {
+            return "";
+        }
+        
+        
+        return s.substring(min_len_index[0], min_len_index[1] +1);
+    }
+    
+    public boolean isValidWindow() {
+        for(int i = 0; i < 128; i++) {
+            if(countMap[i] > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

@@ -1,0 +1,34 @@
+class Solution {
+    public List<Integer> findAnagrams(String s2, String s1) {
+        int[] countMap = new int[26];
+        for(int i = 0; i < s1.length(); i++) {
+            countMap[s1.charAt(i) - 'a']++;
+        } 
+        ArrayList<Integer> res = new ArrayList<>();
+        int len = s2.length();
+        int len1 = s1.length();
+        int left = 0, right;
+        
+        // use left and right pointer
+        
+        for(right = 0; right < len; right++) {
+            
+            // add the element in the righr pointer
+            char rightChar = s2.charAt(right);
+            countMap[rightChar - 'a']--;
+            
+            // if the char pointed to by the right pointer gets too much
+            // move the left pointer until it becomes 0
+            while(countMap[rightChar - 'a'] < 0) {
+                countMap[s2.charAt(left) - 'a']++;
+                left++;
+            }
+            
+            // find a match if the length is equal
+            if(right - left + 1 == len1) {
+                res.add(left);
+            }
+        }
+        return res;
+    }
+}

@@ -1,0 +1,51 @@
+/*
+linkedlist cycle template:
+
+// detect cycle
+slow = head;
+fast = head.next;
+while(slow != fast) {
+    slow = slow.next;
+    fast = fast.next;
+}
+
+// find entry in the cycle. Move either slow or fast to the head
+fast = head;
+        while(slow.next != fast) {
+            slow = slow.next;
+            fast = fast.next;
+        }
+return fast; 
+
+// find the length of the cycle
+fast = slow.next;
+length = 1;
+while(slow != fast) {
+    fast = fast.next;
+    length++;
+}
+
+*/
+class Solution {
+    public int findDuplicate(int[] nums) {
+        // slow = head
+        // fast = head.next
+        int slow = nums[0], fast = nums[nums[0]];
+        while (slow != fast) {
+            // slow = slow.next
+            slow = nums[slow];
+            // fast = fast.next.next
+            fast = nums[nums[fast]];
+        }
+        
+        // move fast pointer to the head
+        // while(slow != fast) do slow = slow.next, fast = fast.next.next
+        
+        fast = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
+    }
+}

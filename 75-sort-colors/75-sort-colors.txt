@@ -1,6 +1,13 @@
 /*
 double pointer method with modification
 triple pointer: left, current, right
+
+0, left, current, right, Len - 1;
+0 to left: small numbers
+Left to current: middle numbers
+Current to right: unknown numbers (could be small, middle or large)
+Right to Len - 1: big numbers
+
 */
 class Solution {
     public void sortColors(int[] nums) {
@@ -20,6 +27,8 @@ class Solution {
             } else if(nums[current] == 1) {
                 current++; // do nothing
             } else {
+			    // don't do current++;
+				// the one on the right may still need to be swapped again
                 swap(nums, current, right);
                 right--;
             }
