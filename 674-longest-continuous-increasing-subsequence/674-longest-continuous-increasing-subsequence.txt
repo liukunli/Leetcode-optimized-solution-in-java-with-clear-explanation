@@ -1,0 +1,81 @@
+/*
+sliding window minimum template:
+left = 0, right = 0;
+for(rigth < len) {
+    if(window invalid) {
+        continue;
+    }
+    while(window valid) {
+        use Math.min to update
+        left++;
+    }
+}
+
+sliding window maximum template
+left = 0, right = 0;
+for(right < len) {
+
+    if(window valid) {
+        use Math.max to update
+        continue;
+    }
+    
+    // move left pointer
+// move it one place or move it or the right 
+While(window invalid) {
+  Left++;
+}
+}
+
+
+
+*/
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int left = 0, right;
+        int max = 1;
+        for(right = 0; right < len - 1; right++) {
+            // move right pointer until the window is invalid
+            if(nums[right] < nums[right+1]) {
+                // at this point, the valid window is [left, right+1];
+                max = Math.max(max, right + 1 - left + 1);
+                continue;
+            }
+            // if the window is invalid, update the left pointer
+            left = right + 1;
+        }
+        return max;        
+    }
+}
+
+
+
+
+class Solution {
+    public int findLengthOfLCIS(int[] nums) {
+        
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        int len = nums.length;
+        int[] dp = new int[len];
+        Arrays.fill(dp, 1);
+        int max = 1;
+        for(int i = 1; i < len; i++) {
+            if(nums[i] <= nums[i-1]) {
+                continue;
+            } else {  // nums[i] > nums[i-1]
+                dp[i] = dp[i-1] + 1;
+                max = Math.max(max, dp[i]);
+            }
+        }
+        
+        return max;
+        
+    }
+}
