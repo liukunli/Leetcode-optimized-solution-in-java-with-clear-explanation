@@ -1,0 +1,46 @@
+/*
+sliding window minimum template:
+
+left = 0; right;
+for(right = 0; right < len; right ++) {
+    // add the right element into the window
+    
+    // while the window is valid
+    // update the min
+    // remove the left element
+    
+}
+
+
+*/
+class Solution {
+    public int minSubArrayLen(int target, int[] nums) {
+        // check edge case
+        if(nums == null || nums.length == 0) {
+            return 0;
+        }
+        // initialize left and right pointer
+        int left = 0, right;
+        int len = nums.length;
+        int sum = 0;
+        int min_len = Integer.MAX_VALUE;
+        
+        // sliding window implementation
+        for(right = 0; right < len; right++) {
+            // add the right element into the window
+            sum += nums[right];
+            
+            // while the window is valid
+            // update the min
+            // remove the left element
+            while(sum >= target) {
+                min_len = Math.min(min_len, right - left + 1);
+                sum -= nums[left];
+                left++;
+            }
+        }
+        
+        return min_len == Integer.MAX_VALUE ? 0 : min_len;
+        
+    }
+}

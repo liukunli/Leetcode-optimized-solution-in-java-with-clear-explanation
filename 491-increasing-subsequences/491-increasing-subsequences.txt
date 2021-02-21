@@ -1,0 +1,65 @@
+/*
+classic backtrack problem
+
+backtack():
+    1. check base case
+    2. for all possible options
+    3. check if that option is valid
+    4. choose that option
+    5. backtrack
+    6. undo the option
+
+for this question, however, the idea of dp can be used
+
+n-1, n
+if all the subsequence of ending at n-1, n-2, ...,  is know, then it is easy to get the one at n
+However, this idea is hard to implement
+
+*/
+class Solution {
+    private List<List<Integer>> res = new ArrayList<>();
+    private List<Integer> current = new ArrayList<>();
+    private int[] nums;
+    private int len;
+    public List<List<Integer>> findSubsequences(int[] nums) {
+        if(nums == null || nums.length == 0) {
+            return res;
+        }
+        this.nums = nums;
+        this.len = nums.length;
+        
+        backtrack(0);
+        return res;
+    }
+    
+    public void backtrack(int start) {
+        // check base case
+        if(current.size() > 1) {
+            res.add(new ArrayList(current));
+        }
+        
+        HashSet<Integer> set = new HashSet<>();
+        
+        // for all possible options
+        for(int i = start; i < len; i++) {
+            // check if that option is valid
+            if(current.size() == 0 || current.get(current.size() - 1) <= nums[i]) {
+                
+                if(!set.contains(nums[i])) {
+                    set.add(nums[i]);
+                    // choose that option
+                    current.add(nums[i]);
+
+                    backtrack(i + 1);
+
+                    // undo the optioin
+                    current.remove(current.size() - 1);
+                }
+                
+            }
+            
+        }
+    }
+    
+    
+}

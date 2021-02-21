@@ -1,0 +1,19 @@
+class Solution {
+    public int findLongestChain(int[][] pairs) {
+        // greedy algorithm
+        // similar to activity selection problem
+        // sort them by end time
+        // then select from the front
+        int len = pairs[0].length;
+        Arrays.sort(pairs, (a, b) -> (a[1] - b[1]));
+        int cnt = 0;
+        int current = Integer.MIN_VALUE;
+        for (int[] pair: pairs) {
+                if (current < pair[0]) {
+                current = pair[1];
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+}

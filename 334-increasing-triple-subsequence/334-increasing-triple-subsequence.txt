@@ -1,0 +1,26 @@
+class Solution {
+    public boolean increasingTriplet(int[] nums) {
+        // edge case
+        if (nums.length < 2) {
+            return false;
+        }
+
+        // double pointer
+        // the first pointer stores the min value
+        // the second pointer stores the second min value
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
+
+        for (int num : nums) {
+            if (min1 >= num) {
+                min1 = num;
+            } else if (min2 >= num) {
+                min2 = num;
+            } else {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}

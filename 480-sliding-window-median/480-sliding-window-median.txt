@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<double> medianSlidingWindow(vector<int>& nums, int k) {
+        // use balanced binary search tree
+        // the root is the median
+        // use tree map
+        // tree set is not applicable since there might be repeating elements
+        // alternatively, you can use treeset allowing for repeating elements
+        // C++ supports multiset (tree set allowing for multiple copies of the same element)
+        vector<double> ans;
+        // check edge case
+        if(k <= 0 || nums.empty()) return ans;
+        // put the first k elements into the set
+        multiset<long long int > mSet(nums.begin(), nums.begin() + k);
+        // looping
+        for(int i = k;; i++) {
+            // get the middle element 
+            auto mid = next(mSet.begin(), (k-1)/2);
+            ans.push_back( ( *mid + *next(mid, 1 - k%2) ) * 0.5 );
+
+            if(i == nums.size()) break;
+            // delete the element on the left
+            mSet.erase(mSet.lower_bound(nums[i-k]));
+            // add the element on the right
+            mSet.insert(nums[i]);
+        }
+        return ans;
+
+    }
+};

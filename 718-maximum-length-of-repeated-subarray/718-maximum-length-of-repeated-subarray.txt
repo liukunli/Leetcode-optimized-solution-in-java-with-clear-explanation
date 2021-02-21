@@ -1,0 +1,86 @@
+/*
+DP problem:
+
+dp[i,j], the length of subarray that ends in A at index i and ends in B in index j
+
+if(A[i] = B[j]): dp[i][j] = dp[i-1][j-1];
+
+[i,j] depends on [i-1, j-1]
+
+dp[A.length][B.length] initialization for the first row and first column
+
+
+if(A[i-1] = B[j-1]): dp[i][j] = dp[i-1][j-1];
+or alternatively, do ap[A.length+1][B.length+1]. The first row and first column is already automatically 0. No special initialization is required
+
+*/
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        int max = 0;
+        int len1 = A.length;
+        int len2 = B.length;
+        int[][] dp = new int[len1+1][len2+1];
+        
+        for(int i = 1; i <= len1; i++) {
+            for(int j = 1; j <= len2; j++) {
+                if(A[i-1] == B[j-1]) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    max = Math.max(max, dp[i][j]);
+                }
+            }
+        }
+        return max;
+    }
+}
+
+
+
+
+
+/*
+DP problem:
+
+dp[i,j], the length of subarray that ends in A at index i and ends in B in index j
+
+if(A[i] = B[j]): dp[i][j] = dp[i-1][j-1];
+
+[i,j] depends on [i-1, j-1]
+
+dp[A.length][B.length] initialization for the first row and first column
+
+
+if(A[i-1] = B[j-1]): dp[i][j] = dp[i-1][j-1];
+or alternatively, do ap[A.length+1][B.length+1]. The first row and first column is already automatically 0. No special initialization is required
+
+*/
+class Solution {
+    public int findLength(int[] A, int[] B) {
+        int max = 0;
+        int len1 = A.length;
+        int len2 = B.length;
+        int[][] dp = new int[len1][len2];
+        
+        // initialization for the first column
+        for(int i = 0; i < len1; i++) {
+            if(A[i] == B[0]) {
+                dp[i][0] = 1;
+            }
+        }
+        // initialization for the first row
+        for(int i = 0; i < len2; i++) {
+            if(A[0] == B[i]) {
+                dp[0][i] = 1;
+            }
+        }
+        // dp implementation
+        for(int i = 1; i < len1; i++) {
+            for(int j = 1; j < len2; j++) {
+                if(A[i] == B[j]) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    max = Math.max(max, dp[i][j]);
+                }
+            }
+        }
+        return max;
+    }
+}

@@ -1,0 +1,31 @@
+class Solution {
+    private int len;
+    public int minOperations(int[] nums, int x) {
+        len = nums.length;
+        int result = minOperations(nums, 0, len - 1, x);
+        if(result >= 0 && result <= 100000) {
+            return result;
+        } else {
+            return -1;
+        }
+    }
+    
+    public int minOperations(int[] nums, int low, int high, int target) {
+        if(target == 0) {
+            return 0;
+        }
+        if(low >= len - 1 || high < 0) {
+            return Integer.MAX_VALUE;
+        }
+        if(nums[low] > target && nums[high] > target) {
+            return Integer.MAX_VALUE;
+        }
+        if(low > high) {
+            return Integer.MAX_VALUE;
+        }
+        
+        int temp = Math.min(minOperations(nums, low + 1, high, target - nums[low]), minOperations(nums, low, high - 1, target - nums[high]));
+        
+        return temp == Integer.MAX_VALUE ? Integer.MAX_VALUE : temp + 1;
+    }
+}
