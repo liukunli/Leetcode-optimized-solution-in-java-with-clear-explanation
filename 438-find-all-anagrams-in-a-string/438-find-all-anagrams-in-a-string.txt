@@ -32,3 +32,52 @@ class Solution {
         return res;
     }
 }
+
+
+
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        
+        // initialization of the window
+        Map<Character, Integer> window = new HashMap<>();
+        for(char c : p.toCharArray()) {
+            window.put(c, window.getOrDefault(c, 0) + 1);
+        }
+        
+        // initialization of left and right pointer
+        int left = 0, right;
+        int target = window.keySet().size();
+        int matched = 0;     
+        List<Integer> result = new ArrayList<>();
+        
+        // sliding window implementation
+        for(right = 0; right < s.length(); right++) {
+            // add the right element into the window
+            char rightChar = s.charAt(right);
+            if(window.containsKey(rightChar)) {
+                window.put(rightChar, window.get(rightChar) - 1);
+                if(window.get(rightChar) == 0) {
+                    matched++;
+                }
+            }
+            
+            // this is when the window is not valid
+            while(right - left + 1 > p.length()) {
+                // remove the elemene from the left pointer from the window
+                char leftChar = s.charAt(left);
+                if(window.containsKey(leftChar)) {
+                    window.put(leftChar, window.get(leftChar) + 1);
+                    if(window.get(leftChar) == 1) {
+                        matched--;
+                    }
+                }
+                left++; 
+            }
+            
+            if(matched == target) {
+                result.add(left);
+            }
+        }
+        return result;
+    }
+}

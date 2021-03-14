@@ -1,20 +1,4 @@
-/*
-sliding window minimum template
 
-left = 0, right;
-for(right = 0; right < len; right++) {
-    // add right into the window
-    
-    while(validWindow()) {
-        // update min
-        // remove left from the window
-        // increment left pointer
-        left++
-    }
-}
-
-
-*/
 class Solution {
     
     private int[] countMap = new int[128];
@@ -71,5 +55,83 @@ class Solution {
             }
         }
         return true;
+    }
+}
+
+
+
+
+
+
+
+
+
+/*
+Sliding window minimum template:
+
+left = 0, right;
+for(right = 0; right < len; right++) {
+	add the element pointed by right into the window
+		
+	while(window valid) {
+		use Math.min to update target function
+		remove the element pointed by left from the window
+		left++; // increment left pointer
+	}
+}
+
+
+*/
+class Solution {
+    public String minWindow(String s, String t) {
+        
+        
+        // initialization of the window 
+        Map<Character, Integer> window = new HashMap<Character, Integer>();
+        for(char c : t.toCharArray()) {
+            window.put(c, window.getOrDefault(c, 0) + 1);
+        }
+        
+        // initialization of left and right pointer
+        int target = window.keySet().size();
+        int matched = 0;
+        int min_len = Integer.MAX_VALUE;
+        int[] index = new int[2];
+        int left = 0, right;
+        
+        // sliding window minimum implementation
+        for(right = 0; right < s.length(); right++) {
+            // add element on the right into the window
+            char right_char = s.charAt(right);
+            if(window.containsKey(right_char)) {
+                window.put(right_char, window.get(right_char) - 1);
+                if(window.get(right_char) == 0) {
+                    matched++;
+                }
+            }
+            
+            // shrink the window the while it is valid
+            while(matched == target) {
+                
+                // update min
+                if(min_len > right - left + 1) {
+                    min_len = right - left + 1;
+                    index[0] = left;
+                    index[1] = right;
+                }
+                
+                // remove left element from the window
+                char left_char = s.charAt(left);
+                if(window.containsKey(left_char)) {
+                    window.put(left_char, window.get(left_char) + 1);
+                    if(window.get(left_char) == 1) {
+                        matched--;
+                    }
+                }
+                left++;
+            }
+        }
+        
+        return min_len == Integer.MAX_VALUE ? "" : s.substring(index[0], index[1] + 1);        
     }
 }

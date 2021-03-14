@@ -1,0 +1,44 @@
+/*
+sliding window maximum implementation
+
+int left, right
+for(right = 0; right < len; right++) {
+    # add element from the right into the window
+    
+    while(window invalid) {
+        # remove element from the left from the window
+        # increment left pointer
+        left++;
+    }
+    # use Math.max to update max
+}
+
+
+*/
+class Solution {
+    public int longestOnes(int[] A, int K) {
+        
+        if(A == null || A.length == 0) {
+            return 0;
+        }
+        
+        int left = 0, right;
+        int max_len = -1;
+        int len = A.length;
+        
+        // window[0] is the number of 0's
+        // window[1] is the number of 1's
+        int[] window = new int[2];
+        
+        for(right = 0; right < len; right++) {
+            // put element on the right into the window
+            window[A[right]]++;
+            while(right - left + 1  - window[1] > K) {
+                window[A[left]]--;
+                left++;
+            }
+            max_len = Math.max(max_len, right - left + 1);
+        }
+        return max_len;        
+    }
+}

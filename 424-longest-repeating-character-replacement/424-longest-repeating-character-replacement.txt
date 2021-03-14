@@ -1,0 +1,54 @@
+/*
+sliding window maximum implementation
+
+int left, right
+for(right = 0; right < len; right++) {
+    # add element from the right into the window
+    
+    while(window invalid) {
+        # remove element from the left from the window
+        # increment left pointer
+        left++;
+    }
+    # use Math.max to update max
+}
+
+max_count, is the maximum repeating letter in any window
+
+*/
+
+class Solution {
+    public int characterReplacement(String s, int k) {
+        
+        // check edge case
+        if(s == null || s.length() == 0) {
+            return 0;
+        }
+        
+        // initialization of left and right pointer
+        int left = 0, right;
+        int len = s.length();
+        int max_count = 0;
+        int max_length = 0;
+        
+        // use a hashmap to store the window
+        Map<Character, Integer> window = new HashMap<>();
+        
+        // sliding window maximum implementation
+        for(right = 0; right < len; right++) {
+            char rightChar = s.charAt(right);
+            window.put(rightChar, window.getOrDefault(rightChar, 0) + 1);
+            max_count = Math.max(max_count, window.get(rightChar));
+            
+            // while shrinking the window, we don't need to update max_count
+            if(right - left + 1 - max_count > k) {
+                char leftChar = s.charAt(left);
+                window.put(leftChar, window.get(leftChar) - 1);
+                left++;
+            }
+            max_length = Math.max(max_length, right - left + 1);
+        }
+        return max_length;        
+        
+    }
+}

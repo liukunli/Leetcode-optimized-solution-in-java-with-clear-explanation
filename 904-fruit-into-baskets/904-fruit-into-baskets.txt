@@ -1,0 +1,49 @@
+/*
+sliding window maximum template
+int left, right
+for(right = 0; right < len; right++) {
+    # put the element pointed by right into the window
+    while(window invalid) {
+        # remove element pointed by left from the window 
+        # increment left pointer: left++;
+    }
+    // the window is valid at this point
+    # update max using Math.max
+}
+
+
+
+*/
+class Solution {
+    public int totalFruit(int[] tree) {
+        // longest substring with no more than 2 distinck fruits
+        // use hashmap implementation
+        if(tree == null || tree.length == 0) {
+            return 0;
+        }
+        
+        // use hashmap to store the window
+        HashMap<Integer, Integer> map = new HashMap<>();
+        
+        // initialization
+        int left = 0, right;
+        int len = tree.length;
+        int max = 0;
+        
+        // sliding window implementation
+        for(right = 0; right < len; right++) {
+            int right_element = tree[right];
+            map.put(right_element, map.getOrDefault(right_element, 0) + 1);
+            while(map.keySet().size() > 2) {
+                int left_element = tree[left];
+                map.put(left_element, map.get(left_element) - 1);
+                if(map.get(left_element) == 0) {
+                    map.remove(left_element);
+                }
+                left++;
+            }
+            max = Math.max(max, right - left + 1);
+        }
+        return max;        
+    }
+}
