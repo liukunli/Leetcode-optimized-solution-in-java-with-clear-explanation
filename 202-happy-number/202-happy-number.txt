@@ -1,0 +1,30 @@
+// use a hashset to check if the number goes back again
+// or use fast slow pointer. similar to cycle detection in linkedlist
+
+class Solution {
+    public boolean isHappy(int n) {
+        int slow = n;
+        int fast = getHappyNumber(n);
+        while(slow != fast) {
+            
+            slow = getHappyNumber(slow);
+            fast = getHappyNumber(getHappyNumber(fast));
+            
+        }
+        
+        return slow == 1;
+    }
+    
+    public int getHappyNumber(int n) {
+        
+        int result = 0;
+        while(n != 0) {
+            int current_digit = n % 10;
+            result += current_digit * current_digit;
+            n = n / 10;
+        }
+        return result;
+    }
+    
+    
+}

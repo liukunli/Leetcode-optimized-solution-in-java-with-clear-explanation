@@ -1,0 +1,61 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+
+/*
+1. find the mid point of the list
+2. cut the list into two halves
+3. reverse the second half
+4. merge the two list
+
+
+*/
+class Solution {
+    public void reorderList(ListNode head) {
+        // check edge case
+        if(head == null || head.next == null){
+            return;
+        }
+        // use slow and fast pointer to find the mid point
+        // set slow and fast both to the head of the list
+        // move fast pointer two positions and move slow pointer one position
+        // when fast pointer goes to the end, the slow.next pointer will be at the middle of the list
+        ListNode fast = head;
+        ListNode slow = head;
+        while(fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        ListNode mid = slow.next;
+        slow.next = null;
+        
+        ListNode headN = new ListNode(0);
+        
+        // reveres the list
+        while(mid != null){
+            ListNode n = new ListNode(mid.val);
+            n.next = headN.next;
+            headN.next = n;
+            mid = mid.next;
+        }
+        
+        // merge the list
+        ListNode m = head;
+        ListNode mN = headN.next;
+        while (mN != null){
+            ListNode tempm = m.next;
+            ListNode tempmN = mN.next;
+            m.next = mN;
+            mN.next = tempm;
+            m = tempm;
+            mN = tempmN;
+        }
+    }
+}

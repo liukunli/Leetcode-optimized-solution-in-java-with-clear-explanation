@@ -1,0 +1,55 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        // check edge case
+        if(head == null || head.next == null) {
+            return head;
+        }
+        // find the length of the list
+        int len = 0;
+        ListNode newHead = new ListNode(0, head);
+        while(head != null) {
+            head = head.next;
+            len++;
+        }
+        // find the mid point
+        len = len / 2;
+        
+        head = newHead.next;
+        int i = 0;
+        while(i < len) {
+            head = head.next;
+            i++;
+        }
+        return head;
+    }
+}
+
+
+
+
+class Solution {
+    public ListNode middleNode(ListNode head) {
+        // check edge case
+        if(head == null || head.next == null) {
+            return head;
+        }
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}

@@ -1,0 +1,18 @@
+class Solution {
+    public int addDigits(int num) {
+        while(num >= 10) {
+            num = add(num);
+        }
+        return num;
+    }
+    
+    public int add(int num) {
+        int result = 0;
+        while(num != 0) {
+            int current_digit = num % 10;
+            result += current_digit;
+            num = num / 10;
+        }
+        return result;
+    }
+}
