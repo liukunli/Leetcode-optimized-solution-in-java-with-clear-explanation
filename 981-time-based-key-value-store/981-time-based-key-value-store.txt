@@ -1,0 +1,35 @@
+class TimeMap {
+    // string is the key, integer is the timestamp, string is the value
+    Map<String, TreeMap<Integer, String>> timeMap;
+    
+    /** Initialize your data structure here. */
+    public TimeMap() {
+        timeMap = new HashMap();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        // if it is not originally in timeMap, create a new treeMap for that key
+        if(!timeMap.containsKey(key)) {
+            timeMap.put(key, new TreeMap());
+        }
+        // it is originally in the timemap. get the treemap corresponding to the key
+        // and put the value and the timestamp into the tree map
+        timeMap.get(key).put(timestamp, value);
+    }
+    
+    public String get(String key, int timestamp) {
+        // if it doesn't contain that key, return empty string
+        if(!timeMap.containsKey(key)) return "";
+        TreeMap<Integer, String> treeMap = timeMap.get(key);
+        // .floorKey, return the greatest key less than or equal to the given key, or null if there is no such key
+        Integer time = treeMap.floorKey(timestamp);
+        return time != null ? treeMap.get(time) : "";
+    }
+}
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap obj = new TimeMap();
+ * obj.set(key,value,timestamp);
+ * String param_2 = obj.get(key,timestamp);
+ */

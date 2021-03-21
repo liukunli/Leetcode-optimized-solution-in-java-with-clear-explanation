@@ -1,0 +1,89 @@
+/*
+for a valid binary search tree, in-order traversal will give elements from low to high
+
+Anomaly from the increasing sequence:
+
+if there are two anomalies, the first number is the bigger number from the first anomaly. the second number is the smaller number from the second anomaly
+
+if there is only one anomaly, just swap those two number
+
+inorder traversal can be done in with both recursion and with iteration using stack
+
+*/
+
+class Solution {
+    
+    private TreeNode first = null;
+    private TreeNode second = null;
+    private TreeNode current = null;
+    
+    public void recoverTree(TreeNode root) {
+        inorderTraversal(root);
+        
+        // swap the value for the first and the second number
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+    
+    public void inorderTraversal(TreeNode root) {
+        if(root == null) {
+            return ;
+        }
+        
+        inorderTraversal(root.left);
+        if(current != null) {
+            if(first == null && current.val > root.val) {
+                first = current;
+            }
+            if(first != null && current.val > root.val) {
+                second = root;
+            }
+        }
+        current = root;
+        inorderTraversal(root.right);
+    }
+}
+
+
+
+
+
+
+
+
+class Solution {
+    
+    private TreeNode first = null;
+    private TreeNode second = null;
+    private TreeNode current = null;
+    
+    public void recoverTree(TreeNode root) {
+        inorderTraversal(root);
+        
+        // swap the value for the first and the second number
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+    
+    public void inorderTraversal(TreeNode root) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode pre = null;
+        while (root != null || !stack.isEmpty()) {
+            while (root != null) {
+                stack.push(root);
+                root = root.left;
+            }
+            root = stack.pop();
+            if (pre != null) {
+                if (first == null && pre.val > root.val)
+                    first = pre;
+                if (first != null && pre.val > root.val)
+                    second = root;
+            }
+            pre = root;
+            root = root.right;
+        }
+    }
+}
