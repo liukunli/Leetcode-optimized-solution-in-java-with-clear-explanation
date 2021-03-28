@@ -1,0 +1,96 @@
+/* 
+ String segmentation with double pointers: get different substrings (segments) from a string
+ 
+ left = 0, right = 0;
+ while(left < len) {
+    // no match
+    if(s.charAt(left) doesn't meet some requirement) {
+        left++;
+        continue;
+    }
+    
+    // match
+    // 1. set right = left + 1
+    // 2. expand right as far as possible to cover the segement
+    // 3. get the segment using substring method
+    // 4. process the segment. set left = right + 1. It will goes back to the while loop again to look for  another segment
+    
+    right = left + 1;
+    while(right < len && s.charAt(right) meets some requirement) {
+        right++;
+    }
+    String segment = s.substring(left, right);
+    # process(segment)
+    left = right + 1;
+ }
+
+
+
+
+*/
+
+
+
+public int numDifferentIntegers(String word) {
+        if(word == null || word.length() == 0) {
+            return 0;
+        }
+        
+        Set<Long> set = new HashSet<>();
+        int left = 0, right = 0;
+        while(left < word.length()) {
+            
+            // no match
+            if(word.charAt(left) < '0' || word.charAt(left) > '9') {
+                left++;
+                continue;
+            }
+            
+            // there is a match: move left pointer to the right of the right poiner. do a while(left < len && condition is met)
+            right = left + 1;
+            while(right < word.length() && word.charAt(right) >= '0' && word.charAt(right) <= '9') {
+                right++;
+            }
+            set.add(Long.parseLong(word.substring(left, right)));
+            left = right+1;
+        }
+        return set.size();        
+    }
+
+
+
+public String evaluate(String s, List<List<String>> knowledge) {
+        Map<String, String> map = new HashMap<>();
+        for(List<String> list : knowledge) {
+            String key = list.get(0);
+            String value = list.get(1);
+            map.put(key, value);
+        }
+        String res = "";
+        int left = 0, right = 0;
+        while(left < s.length()) {
+            
+            // no match
+            if(s.charAt(left) != '(') {
+                res += s.charAt(left);
+                left++;
+                continue;
+            }
+            
+            // match
+            right = left + 1;
+            while(s.charAt(right) != ')') {
+                right++;
+            }
+            String key = s.substring(left + 1, right);
+            String value = map.getOrDefault(key, "?");
+            res += value;
+            left = right + 1;
+        }
+        return res;
+    }
+
+
+
+
+
