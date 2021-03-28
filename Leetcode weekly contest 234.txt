@@ -3,20 +3,20 @@
  
  left = 0, right = 0;
  while(left < len) {
-    // no match
-    if(s.charAt(left) doesn't meet some requirement) {
+    // there is no match
+    if(s.charAt(left) is not the start of the segmeent) {
         left++;
         continue;
     }
     
-    // match
+    // there is a match. 4 steps.
     // 1. set right = left + 1
-    // 2. expand right as far as possible to cover the segement
+    // 2. expand right as far as possible to cover the segment
     // 3. get the segment using substring method
     // 4. process the segment. set left = right + 1. It will goes back to the while loop again to look for  another segment
     
     right = left + 1;
-    while(right < len && s.charAt(right) meets some requirement) {
+    while(right < len && s.charAt(right) is not the end of the segment) {
         right++;
     }
     String segment = s.substring(left, right);
@@ -46,12 +46,13 @@ public int numDifferentIntegers(String word) {
                 continue;
             }
             
-            // there is a match: move left pointer to the right of the right poiner. do a while(left < len && condition is met)
+            // there is a match
             right = left + 1;
             while(right < word.length() && word.charAt(right) >= '0' && word.charAt(right) <= '9') {
                 right++;
             }
-            set.add(Long.parseLong(word.substring(left, right)));
+			String segment = word.substring(left, right);
+            set.add(Long.parseLong(segment));
             left = right+1;
         }
         return set.size();        
@@ -82,8 +83,8 @@ public String evaluate(String s, List<List<String>> knowledge) {
             while(s.charAt(right) != ')') {
                 right++;
             }
-            String key = s.substring(left + 1, right);
-            String value = map.getOrDefault(key, "?");
+            String segment = s.substring(left + 1, right);
+            String value = map.getOrDefault(segment, "?");
             res += value;
             left = right + 1;
         }
