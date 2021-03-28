@@ -51,7 +51,7 @@ public int numDifferentIntegers(String word) {
             while(right < word.length() && word.charAt(right) >= '0' && word.charAt(right) <= '9') {
                 right++;
             }
-			String segment = word.substring(left, right);
+	    String segment = word.substring(left, right);
             set.add(Long.parseLong(segment));
             left = right+1;
         }
