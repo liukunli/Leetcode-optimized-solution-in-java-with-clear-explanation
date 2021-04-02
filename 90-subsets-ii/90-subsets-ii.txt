@@ -1,0 +1,76 @@
+/*
+backtrack() {
+1.	check base case, return
+
+for(all possible options) {
+		1.	check if it is a valid option. If not, break;
+		2.	choose that optoin
+		3.	Backtrack()
+		4.	undo choosing that option
+	}
+}
+
+2 modifications to remove duplicates:
+
+1. sort the array
+2. on each layer of backtrack, use a hashset to make sure no duplicative element is added
+
+
+*/
+
+
+
+class Solution {
+    private List<Integer> current = new ArrayList<>();
+    private List<List<Integer>> res = new ArrayList<>();
+    private boolean[] flag; 
+    private int[] nums;
+    private int len;
+    public List<List<Integer>> subsetsWithDup(int[] nums) {
+        
+        if(nums == null || nums.length == 0) return res; 
+        Arrays.sort(nums);
+        this.nums = nums;
+        this.len = nums.length;
+        flag = new boolean[len];
+        res.add(new ArrayList(current)); // for the empty set
+        
+        Set<Integer> set = new HashSet<>(); // on each layer of the backtrack, make sure no duplicative element is added
+        for(int i = 0; i < len; i++) {
+            if(set.contains(nums[i])) continue;
+            set.add(nums[i]);
+            // choose that option
+            flag[i] = true;
+            current.add(nums[i]);
+            // backtrack
+            backtrack(i);
+            // undo choosing that option
+            flag[i] = false;
+            current.remove(current.size()-1);
+        } 
+        return res;
+    }
+    
+    public void backtrack(int i) {
+        res.add(new ArrayList(current));
+        Set<Integer> set = new HashSet<>();
+        for(int j = i+1; j < len; j++) {
+            
+            if(set.contains(nums[j])) continue; // on each layer, no make sure no same number if added
+            set.add(nums[j]);
+            
+            if(flag[j] == false) { // valid option, not yet contained in the set
+                // choose that option
+                flag[j] = true;
+                current.add(nums[j]);
+                // backtrack
+                backtrack(j);
+                // undo choosing the option
+                flag[j] = false;
+                current.remove(current.size()-1);
+            }
+        }
+    }
+}
+
+

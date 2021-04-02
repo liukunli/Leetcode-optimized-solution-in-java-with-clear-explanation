@@ -1,0 +1,167 @@
+/*
+
+private List<List<Integer>> res = new ArrayList<>();
+private List<Integer> current_list = new ArrayList<>();
+res.add(new ArrayList(current_list));
+
+in main function:
+
+for(int i = 0; i < len; i++) {
+    // check if the ith element is valid
+    // if so choose the ith element
+    // backtrack
+    // undo choosing the ith element
+}
+
+
+backtrack(i) {
+1.	check base case, return.
+
+for(all possible options) {
+		1.	check if it is a valid option. If not, break;
+		2.	choose that optoin
+		3.	Backtrack()
+		4.	undo choosing that option
+	}
+}
+
+in main function:
+
+for(int i = 0; i < len; i++) {
+    backtrack(i);
+}
+
+
+backtrack(i) {
+    // check if the ith element is valid
+    // choose the ith element 
+    for(j = i+1; j < len; j++) {
+        backtrack(j_;)
+    }
+    // undo choosing the ith element
+}
+
+
+
+
+*/
+
+class Solution {
+    private List<String> res = new ArrayList<>();
+    private char[] charArray;
+    private int len;
+    private int[] charStatus;
+    public List<String> letterCasePermutation(String S) {
+        if(S == null || S.length() == 0) return res;
+        
+        this.charArray = S.toCharArray();
+        this.len = S.length();
+        this.charStatus = new int[len]; // 0 is not lowercase or upper case, 1 is lowercase, 2 is upper case
+        
+        for(int i = 0; i < len; i++) {
+            char c = charArray[i];
+            if(Character.isLowerCase(c)) {
+                charStatus[i] = 1;
+            } else if(Character.isUpperCase(c)) {
+                charStatus[i] = 2;
+            }
+        }
+        
+        res.add(String.valueOf(charArray)); // for the string witout modification
+        
+        for(int i = 0; i < len; i++) {
+            backtrack(i);
+        }
+        
+        return res;
+        
+    }
+    
+    public void backtrack(int i) {
+        
+        if(charStatus[i] == 0) return ;
+        if(charStatus[i] == 1) { // lower case, change it to upper case
+            charArray[i] = Character.toUpperCase(charArray[i]); // choose that option
+        } else if(charStatus[i] == 2) {
+            charArray[i] = Character.toLowerCase(charArray[i]); // choose that option
+        }
+        
+        res.add(String.valueOf(charArray));
+        
+        for(int j = i + 1; j < len; j++) {
+            backtrack(j);
+        }
+        
+        if(charStatus[i] == 1) { // lower case, change it to upper case
+            charArray[i] = Character.toLowerCase(charArray[i]); // choose that option
+        } else if(charStatus[i] == 2) {
+            charArray[i] = Character.toUpperCase(charArray[i]); // choose that option
+        }
+        
+    }
+}
+
+
+
+
+
+class Solution {
+    private List<String> res = new ArrayList<>();
+    private char[] charArray;
+    private int len;
+    private int[] charStatus;
+    public List<String> letterCasePermutation(String S) {
+        if(S == null || S.length() == 0) return res;
+        
+        this.charArray = S.toCharArray();
+        this.len = S.length();
+        this.charStatus = new int[len]; // 0 is not lowercase or upper case, 1 is lowercase, 2 is upper case
+        
+        for(int i = 0; i < len; i++) {
+            char c = charArray[i];
+            if(Character.isLowerCase(c)) {
+                charStatus[i] = 1;
+            } else if(Character.isUpperCase(c)) {
+                charStatus[i] = 2;
+            }
+        }
+        
+        res.add(String.valueOf(charArray)); // for the string witout modification
+        for(int i = 0; i < len; i++) {
+            if(charStatus[i] == 0) continue;
+            if(charStatus[i] == 1) { // lower case, change it to upper case
+                charArray[i] = Character.toUpperCase(charArray[i]); // choose that option
+                backtrack(i); // backtrack
+                charArray[i] = Character.toLowerCase(charArray[i]); // undo choosing that option. change it back
+                continue;
+            }
+            if(charStatus[i] == 2) { // upper case, change it to lower case
+                charArray[i] = Character.toLowerCase(charArray[i]); // choose that option
+                backtrack(i); // backtrack
+                charArray[i] = Character.toUpperCase(charArray[i]); // undo choosing that option. change it ba
+                continue;
+            }
+        }
+        return res;
+        
+    }
+    
+    public void backtrack(int current) {
+        res.add(String.valueOf(charArray));
+        for(int i = current + 1; i < len; i++) {
+            if(charStatus[i] == 0) continue;
+            if(charStatus[i] == 1) { // lower case, change it to upper case
+                charArray[i] = Character.toUpperCase(charArray[i]); // choose that option
+                backtrack(i); // backtrack
+                charArray[i] = Character.toLowerCase(charArray[i]); // undo choosing that option. change it back
+                continue;
+            }
+            if(charStatus[i] == 2) { // upper case, change it to lower case
+                charArray[i] = Character.toLowerCase(charArray[i]); // choose that option
+                backtrack(i); // backtrack
+                charArray[i] = Character.toUpperCase(charArray[i]); // undo choosing that option. change it back
+                continue;
+            }
+        }
+    }
+}

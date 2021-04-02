@@ -1,0 +1,104 @@
+/*
+backtrack() {
+1.	check base case, return
+
+for(all possible options) {
+		1.	check if it is a valid option. If not, break;
+		2.	choose that optoin
+		3.	Backtrack()
+		4.	undo choosing that option
+	}
+}
+
+
+*/
+class Solution {
+    private List<Integer> current = new ArrayList<>();
+    private List<List<Integer>> res = new ArrayList<>();
+    private boolean[] flag; // check if one element is already contained in the set. This can be implemented with hashset as well. but boolean array is more convenient (since all elements are distinct)
+    private int[] nums;
+    private int len;
+    public List<List<Integer>> subsets(int[] nums) {
+        
+        if(nums == null || nums.length == 0) return res; 
+        
+        this.nums = nums;
+        this.len = nums.length;
+        flag = new boolean[len];
+        
+        res.add(new ArrayList(current)); // for the empty set
+        
+        for(int i = 0; i < len; i++) {
+            // choose that option
+            flag[i] = true;
+            current.add(nums[i]);
+            // backtrack
+            backtrack(i);
+            // undo choosing that option
+            flag[i] = false;
+            current.remove(current.size()-1);
+        } 
+        return res;
+    }
+    
+    public void backtrack(int i) {
+        res.add(new ArrayList(current));
+        
+        for(int j = i+1; j < len; j++) {
+            if(flag[j] == false) { // valid option, not yet contained in the set
+                // choose that option
+                flag[j] = true;
+                current.add(nums[j]);
+                // backtrack
+                backtrack(j);
+                // undo choosing the option
+                flag[j] = false;
+                current.remove(current.size()-1);
+            }
+        }
+    }
+
+}
+
+
+
+
+
+class Solution {
+    private List<Integer> current = new ArrayList<>();
+    private List<List<Integer>> res = new ArrayList<>();
+    private boolean[] flag; // check if one element is already contained in the set. This can be implemented with hashset as well. but boolean array is more convenient (since all elements are distinct)
+    private int[] nums;
+    private int len;
+    public List<List<Integer>> subsets(int[] nums) {
+        
+        if(nums == null || nums.length == 0) return res; 
+        
+        this.nums = nums;
+        this.len = nums.length;
+        flag = new boolean[len];
+        
+        res.add(new ArrayList(current)); // for the empty set
+        
+        for(int i = 0; i < len; i++) {
+           backtrack(i);
+        } 
+        return res;
+    }
+    
+    public void backtrack(int i) {
+        // check base case and check if the option is valid
+        if(flag[i] == true) return ;
+        // check the ith option
+        flag[i] = true;
+        current.add(nums[i]);
+        res.add(new ArrayList(current));
+        // backtracking
+        for(int j = i+1; j < len; j++) {
+            backtrack(j);
+        }
+        // undo choosing the ith option
+        flag[i] = false;
+        current.remove(current.size()-1);
+    }
+}
